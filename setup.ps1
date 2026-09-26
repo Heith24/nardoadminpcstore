@@ -44,11 +44,7 @@ if (-not ($odbcDriverKeys | Where-Object { Test-Path $_ })) {
 
 $expressService = Get-Service -Name 'MSSQL$SQLEXPRESS' -ErrorAction SilentlyContinue
 if (-not $expressService) {
-  Install-WinGetPackage 'Microsoft.SQLServer.2025.Express'
-  $expressService = Get-Service -Name 'MSSQL$SQLEXPRESS' -ErrorAction SilentlyContinue
-  if (-not $expressService) {
-    throw 'SQL Server Express installation did not create the SQLEXPRESS instance. Complete the SQL Server installer, then rerun setup.ps1.'
-  }
+  throw 'SQL Server Express is not installed. Run install-sqlserver.ps1 first, then rerun setup.ps1.'
 }
 if ($expressService.Status -ne 'Running') { Start-Service -Name 'MSSQL$SQLEXPRESS' }
 
